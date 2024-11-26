@@ -1,0 +1,25 @@
+.Task {
+  display: flex;
+  margin: 0 1em;
+}
+
+.Task__Content {
+  display: flex;
+  align-items: center;
+}
+
+.Task__Buttons {
+  display: flex;
+}
+.Task__Buttons > div,
+.Task__Content {
+  margin: 0 0.5em;
+}
+
+.Task__Left,
+.Task__Right,
+.Task__Buttons {
+  font-weight: bold;
+  font-size: 25px;
+  cursor: pointer;
+}

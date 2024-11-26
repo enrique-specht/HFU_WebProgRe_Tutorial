@@ -1,0 +1,16 @@
+.AddToDo {
+  width: 500px;
+}
+
+.AddToDo__Wrapper {
+  padding: 1rem 2.5em;
+  margin-top: 2em;
+  border: 1px grey solid;
+  border-radius: 5px;
+}
+
+.AddToDo__Buttons {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}

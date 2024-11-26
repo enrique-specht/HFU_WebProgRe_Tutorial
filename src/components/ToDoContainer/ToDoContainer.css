@@ -1,0 +1,26 @@
+.ToDoContainer {
+  display: flex;
+  width: 100%;
+}
+
+.ToDoContainer__Column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  border: 1px solid grey;
+}
+
+.ToDoContainer__Column__Title {
+  border-bottom: 1px solid black;
+  width: 90%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.ToDoContainer__Column__Content {
+  display: flex;
+  margin: 0.125em;
+  padding: 0.125em;
+  flex-direction: column;
+}
