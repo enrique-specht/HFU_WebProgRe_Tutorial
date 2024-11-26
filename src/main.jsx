@@ -5,6 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import ToDoContainer from "./components/ToDoContainer/ToDoContainer.jsx";
 import AddToDo from "./components/AddToDo/AddToDo.jsx";
+import Account from "./components/Account/Account.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/add",
         element: <AddToDo />,
+      },
+      {
+        path: "/account",
+        element: <Account />,
       },
     ],
   },

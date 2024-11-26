@@ -12,6 +12,9 @@ export default function NavBar() {
         <Link to={"/add"} className="NavBar__Button">
           Add Task
         </Link>
+        <Link to={"/account"} className="NavBar__Button">
+          Account
+        </Link>
       </div>
     </div>
   );
