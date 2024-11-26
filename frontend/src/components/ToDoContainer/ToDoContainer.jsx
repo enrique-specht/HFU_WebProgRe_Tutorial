@@ -1,53 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ToDoContainer.css";
 import Task from "../Task/Task";
+import axios from "../../axiosURL";
 
 export default function ToDoContainer() {
-  const [todos, setToDos] = useState([
-    { id: 1, task: "Putzen", priority: "high", user: "2123", completed: false },
-    { id: 2, task: "Lernen", priority: "low", user: "2123", completed: true },
-    {
-      id: 3,
-      task: "Einkaufen",
-      priority: "medium",
-      user: "2123",
-      completed: true,
-    },
-  ]);
+  const [todos, setToDos] = useState([]);
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
+
+  const getAllTasks = () => {
+    axios
+      .get("/tasks", { withCredentials: true })
+      .then((res) => setToDos(res.data))
+      .catch((err) => console.error(err));
+  };
 
   const moveRight = (taskId) => {
-    const taskIndex = todos.findIndex((v) => v.id == taskId);
+    const taskIndex = todos.findIndex((v) => v._id == taskId);
     const task = { ...todos[taskIndex] };
     task.completed = true;
-    const copyToDos = [...todos];
-    copyToDos[taskIndex] = task;
-    setToDos(copyToDos);
+
+    axios
+      .put("/task", { ...task }, { withCredentials: true })
+      .then(() => getAllTasks())
+      .catch((err) => console.error(err));
   };
 
   const moveLeft = (taskId) => {
-    const taskIndex = todos.findIndex((v) => v.id == taskId);
+    const taskIndex = todos.findIndex((v) => v._id == taskId);
     const task = { ...todos[taskIndex] };
     task.completed = false;
-    const copyToDos = [...todos];
-    copyToDos[taskIndex] = task;
-    setToDos(copyToDos);
+
+    axios
+      .put("/task", { ...task }, { withCredentials: true })
+      .then(() => getAllTasks())
+      .catch((err) => console.error(err));
   };
 
   const deleteToDo = (taskId) => {
-    const taskIndex = todos.findIndex((v) => v.id == taskId);
-    const copyToDos = [...todos];
-    copyToDos.splice(taskIndex, 1);
-    setToDos(copyToDos);
+    axios
+      .delete("/task/" + taskId, { withCredentials: true })
+      .then(() => getAllTasks())
+      .catch((err) => console.error(err));
   };
 
   const openTaskMap = todos
-    .filter((v) => !v.completed)
+    ?.filter((v) => !v.completed)
     .map((value) => (
       <Task
-        key={value.id}
-        id={value.id}
+        key={value._id}
+        id={value._id}
         task={value.task}
-        priority={value.priority}
+        priority={value.priority.name}
         completed={value.completed}
         moveRight={moveRight}
         moveLeft={moveLeft}
@@ -56,13 +62,13 @@ export default function ToDoContainer() {
     ));
 
   const completedTaskMap = todos
-    .filter((v) => v.completed)
+    ?.filter((v) => v.completed)
     .map((value) => (
       <Task
-        key={value.id}
-        id={value.id}
+        key={value._id}
+        id={value._id}
         task={value.task}
-        priority={value.priority}
+        priority={value.priority.name}
         completed={value.completed}
         moveRight={moveRight}
         moveLeft={moveLeft}
