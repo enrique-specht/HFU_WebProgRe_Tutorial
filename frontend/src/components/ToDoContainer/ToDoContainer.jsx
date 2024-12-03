@@ -1,21 +1,17 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { loadTasks, updateTasks } from "../../reducer/reducer";
 import "./ToDoContainer.css";
 import Task from "../Task/Task";
 import axios from "../../axiosURL";
 
 export default function ToDoContainer() {
-  const [todos, setToDos] = useState([]);
+  const todos = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllTasks();
-  }, []);
-
-  const getAllTasks = () => {
-    axios
-      .get("/tasks", { withCredentials: true })
-      .then((res) => setToDos(res.data))
-      .catch((err) => console.error(err));
-  };
+    dispatch(loadTasks());
+  });
 
   const moveRight = (taskId) => {
     const taskIndex = todos.findIndex((v) => v._id == taskId);
@@ -24,7 +20,7 @@ export default function ToDoContainer() {
 
     axios
       .put("/task", { ...task }, { withCredentials: true })
-      .then(() => getAllTasks())
+      .then(() => dispatch(updateTasks({ completed: true, _id: taskId })))
       .catch((err) => console.error(err));
   };
 
@@ -35,14 +31,14 @@ export default function ToDoContainer() {
 
     axios
       .put("/task", { ...task }, { withCredentials: true })
-      .then(() => getAllTasks())
+      .then(() => dispatch(updateTasks({ completed: false, _id: taskId })))
       .catch((err) => console.error(err));
   };
 
   const deleteToDo = (taskId) => {
     axios
       .delete("/task/" + taskId, { withCredentials: true })
-      .then(() => getAllTasks())
+      .then(() => dispatch(loadTasks()))
       .catch((err) => console.error(err));
   };
 
